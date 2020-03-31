@@ -1,12 +1,15 @@
 from wit import Wit
+from configparser import ConfigParser
 
+configur = ConfigParser() 
+configur.read('config.ini')
 
+#access_token="AGA7G6LBUYJQZBJWM4S2UYC4FRNUB45B"
 
-access_token = ""
-
+access_token = str(configur.get('autharization','access_token'))
 client = Wit(access_token = access_token)
 
-text = "suggest me some good movies"
+text = "hi"
 
 
 def wit_response(text):
@@ -37,4 +40,4 @@ def wit_response(text):
 	return(intent_value,entity,entity_value)
 
 
-#print(wit_response(text))
+print(wit_response(text))

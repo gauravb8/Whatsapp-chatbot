@@ -1,7 +1,11 @@
 from flask import Flask, request
 import requests
+import random
 from utils import wit_response
+from read_answers import get_messages
 from twilio.twiml.messaging_response import MessagingResponse
+from configparser import ConfigParser
+
 
 app = Flask(__name__)
 
@@ -12,23 +16,28 @@ def bot():
 	resp = MessagingResponse()
 	msg = resp.message()
 	responded = False
+	file_name = "bot_answers.json"
+	data = get_messages(file_name)
+	print(data)
+	Welcome_message = data['intent']['Welcome_message'][0]['value']
+	Introduction = data['intent']['Introduction'][0]['value']
+	print(Welcome_message)
 	
-	if 'hi' in incoming_msg.lower():
-		msg.body('')
-		responded = True
-	if 'hello' in incomhelloing_msg.lower():
-		msg.body('Wassup')
-		responded = True
-	if '?' in incoming_msg:
-		msg.body("Well I'm glad you asked. I am a chat bot developed to service your needs. Go on and enter your query.")
-		responded = True
-		
 	intent_value,entity,entity_value = wit_response(str(incoming_msg))
 	print(intent_value)
 	print(entity)
 	print(entity_value)
 	
+	if intent_value == 	'Welcome_message':
+		text = str(random.choice(Welcome_message))
+		msg.body(text)
+		responded = True
 		
+	if intent_value == 	'Introduction':
+		text = str(random.choice(Introduction))
+		msg.body(text)
+		responded = True
+	
 	if intent_value == 'Recommendation':
 		if entity == None:
 			text = 'What kind of movies do you want to watch?'
