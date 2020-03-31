@@ -12,17 +12,15 @@ def bot():
 	resp = MessagingResponse()
 	msg = resp.message()
 	responded = False
-	if 'hi' in incoming_msg:
-		text = 'Hello!'
-		msg.body(text)
+	
+	if 'hi' in incoming_msg.lower():
+		msg.body('')
 		responded = True
-	if 'hello' in incoming_msg:
-		text = 'Hey!'
-		msg.body(text)
+	if 'hello' in incomhelloing_msg.lower():
+		msg.body('Wassup')
 		responded = True
-	if 'are you' in incoming_msg:
-		text = "Well I'm glad you asked. I am a chat bot developed to service your needs. Go on and enter your query."
-		msg.body(text)
+	if '?' in incoming_msg:
+		msg.body("Well I'm glad you asked. I am a chat bot developed to service your needs. Go on and enter your query.")
 		responded = True
 		
 	intent_value,entity,entity_value = wit_response(str(incoming_msg))
