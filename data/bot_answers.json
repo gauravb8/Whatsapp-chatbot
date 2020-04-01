@@ -1,0 +1,15 @@
+{
+	"welcome_messages":["Hello, How can I help you?",
+					 	"Hi, Thanks for reaching out! What brings you here today?",
+					  	"Hey, What brought you here?",
+					  	"Hi Welcome! Do you have any questions?",
+						"Hey, I am here to help you regarding movies. Go on and enter your query.",
+						"Hi, I am a Chatbot and I can help you regarding movies.",
+						"Hi, Nice to see you, How may I help you?",
+						"Hey, I am here to service your needs. Go on and enter your query.",
+						"Hi, May I ask if there's anything I could help?"],
+	"introduction_messages":[	"Well I'm glad you asked. I am a chat bot developed to service your needs. Go on and enter your query.",
+								"Thank you for asking. I am a chat bot developed to service your needs. Go on and enter your query.",
+								"I am the Boss here...Bot, gosh, sorry, bot...I meant bot! Ah well, before they scrape me for parts, may I ask if there's anything I could help?",
+								"I'm glad you asked. We love having you with us. I am a chat bot developed to help you with movies but you need to tell me what brought you here first?"]
+}

@@ -6,10 +6,13 @@ idna==2.9
 itsdangerous==1.1.0
 Jinja2==2.11.1
 MarkupSafe==1.1.1
+prompt-toolkit==3.0.5
 PyJWT==1.7.1
 pytz==2019.3
 requests==2.23.0
 six==1.14.0
 twilio==6.37.0
 urllib3==1.25.8
+wcwidth==0.1.9
 Werkzeug==1.0.0
+wit==5.1.0
