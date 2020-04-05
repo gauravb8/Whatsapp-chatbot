@@ -12,30 +12,17 @@ class WitInterface(object):
 	def get_response(self, text):
 		resp = self.client.message(text)
 		# return str(resp)
-		entity = None
-		value = None
-		intent = None
-		intent_value = None
-		entity_value = None
+		Values = {}
 		
 		try:
-			entity = list(resp['entities'])[0] #'movie'
-			if entity == 'movie':
-				entity_value = resp['entities'][entity][0]['value']
-				intent = list(resp['entities'])[1]
-				intent_value = resp['entities'][intent][0]['value']
-			else:
-				entity = None
-				entity_value = None
-				intent = list(resp['entities'])[0]
-				intent_value = resp['entities'][intent][0]['value']
+			for key,value in resp['entities'].items():
+				Values[key] = value[0]['value']
 				
 			
 		except:
 			pass
 		
-		return(intent_value,entity,entity_value)
-
+		return Values
 
 class Data(object):
 
@@ -45,3 +32,6 @@ class Data(object):
 
 	def get_value(self, key):
 		return self.json_obj.get(key, None)
+		
+		
+

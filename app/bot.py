@@ -10,6 +10,10 @@ def say_hi():
 
 def converse():
 	incoming_msg = request.values.get('Body', '').lower()
+	user_number = request.values.get('From','')
+	print(user_number)
+	print(request.values)
+	print(request.values.get('From'))
 	resp = MessagingResponse()
 	msg = resp.message()
 	responded = False
@@ -17,24 +21,27 @@ def converse():
 	introduction = random.choice(app.responses_data.get_value('introduction_messages'))
 	# print(Welcome_message)
 	
-	intent_value,entity,entity_value = app.wit_interface.get_response(incoming_msg)
-	print(intent_value, entity, entity_value)
+	entities = app.wit_interface.get_response(incoming_msg)
+	print(entities)
 	
-	if intent_value == 	'Welcome_message':
-		msg.body(welcome_msg)
-		responded = True
-		
-	if intent_value == 'Introduction':
-		msg.body(introduction)
-		responded = True
+	if 'intent' in entities:
+		if entities['intent'] == 'Welcome_message':
+			msg.body(welcome_msg)
+			responded = True
+		if entities['intent'] == 'Introduction':
+			msg.body(introduction)
+			responded = True
 	
-	if intent_value == 'Recommendation':
-		if entity == None:
-			text = 'What kind of movies do you want to watch?'
-		else:
-			text =  "You want to watch movies like "+str(entity_value)+"."
-		msg.body(text)
-		responded = True
+		if entities['intent'] == 'Recommendation':
+			if 'movie' in entities:
+				text = "You want to watch movies like "+str(entities['movie'])+"."
+				
+			if 'genre' in entities:
+				text = "You want to watch "+str(entities['genre'])+" movies ."
+			else:
+				text = 'what type of movie you\'re looking for?'
+			msg.body(text)
+			responded = True
 	
 	if not responded:
 		msg.body('My training is under process.')
