@@ -36,7 +36,7 @@ def converse():
 			if 'movie' in entities:
 				text = "You want to watch movies like "+str(entities['movie'])+"."
 				
-			if 'genre' in entities:
+			else if 'genre' in entities:
 				text = "You want to watch "+str(entities['genre'])+" movies ."
 			else:
 				text = 'what type of movie you\'re looking for?'
