@@ -19,7 +19,8 @@ def create_app(test_config=None):
     from app import utils, bot, db
     app.wit_interface = utils.WitInterface(app.config['WIT_AUTH_TOKEN'])
     app.responses_data = utils.Data('data/bot_answers.json')
-    app.db_client = db.DataBase(app.config['MONGO_CONNECTION_STRING'], app.config['MONGO_USERNAME'], app.config['MONGO_PASSWORD']).client
+    app.db = db.DataBase(app.config['MONGO_CONNECTION_STRING'], app.config['MONGO_USERNAME'], app.config['MONGO_PASSWORD'])
+    app.db.set_context_collection(app.config['MONGO_BOT_DB'], app.config['MONGO_CONTEXT_COLLECTION'])
 
     # Routes
     app.add_url_rule('/bot', 'bot_intro', bot.say_hi, methods=['GET'])
