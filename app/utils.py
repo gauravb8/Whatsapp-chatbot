@@ -10,19 +10,26 @@ class WitInterface(object):
 		self.client = Wit(access_token = access_token)
 
 	def get_response(self, text):
-		resp = self.client.message(text)
-		# return str(resp)
-		Values = {}
-		
+		res = self.client.message(text)
+		confidence_threshold = {'intent': 0.6, 'movie':0.7, 'genre':0.7}
+
+		print(res)
+		intent, entities = '', []
 		try:
-			for key,value in resp['entities'].items():
-				Values[key] = value[0]['value']
-				
-			
-		except:
-			pass
+			for key, val in res['entities'].items():
+				if val[0]['confidence'] <= confidence_threshold[key]:
+					continue
+				if key=='intent':
+					intent = val[0]['value']
+				else:
+					for entity in val:
+						entities.append({'type': key, 'value': entity['value']})
+
+		except KeyError as e:
+			print("Key not found in Wit response: ", e)
 		
-		return Values
+		return (intent, entities)
+
 
 class Data(object):
 
