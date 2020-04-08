@@ -23,7 +23,7 @@ def create_app(test_config=None):
     app.db.set_context_collection(app.config['MONGO_BOT_DB'], app.config['MONGO_CONTEXT_COLLECTION'])
 
     # Routes
-    app.add_url_rule('/bot', 'bot_intro', bot.say_hi, methods=['GET'])
+    # app.add_url_rule('/bot', 'bot_intro', bot.say_hi, methods=['GET'])
     app.add_url_rule('/bot', 'bot_response', bot.converse, methods=['POST'])
 
 
