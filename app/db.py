@@ -1,4 +1,4 @@
-# from flask import current_app as app
+from flask import current_app as app
 import pymongo
 from pymongo.errors import WriteError, PyMongoError
 from urllib.parse import quote as urlencode
@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 
 
 class DataBase(object):
+	CONTEXT_VALIDITY_MINS = 5
 	def __init__(self, connection_string, username, password):
 		print('Connecting to DB..')
 		self.client = pymongo.MongoClient(connection_string.format(urlencode(username), urlencode(password)), connect=True)
@@ -31,13 +32,22 @@ class DataBase(object):
 		try:
 			chat_context = self.contexts.find_one({
 				'phone_number': phone_number,
-				'timestamp': {'$gt': datetime.now() - timedelta(minutes=5)}
+				'timestamp': {'$gt': datetime.now() - timedelta(minutes=self.CONTEXT_VALIDITY_MINS)}
 				})
 			if chat_context is None:
 				print('No context exists for number: ',phone_number)
 			return chat_context
 		except PyMongoError as e:
 			print("Error: ", e)
+
+	def count_contexts(self, phone_number):
+		try:
+			return self.contexts.count_documents({
+				'phone_number': phone_number,
+				'timestamp': {'$gt': datetime.now() - timedelta(minutes=self.CONTEXT_VALIDITY_MINS)}
+				})
+		except PyMongoError as e:
+			print('PyMongoError: ', e)
 
 	# def add_entity_to_context(self, phone_number, entity):
 	# 	try:
@@ -48,6 +58,16 @@ class DataBase(object):
 	# 			})
 	# 	except WriteError as e:
 	# 		print('Error while updating document: ', e)
+
+	def update_intent(self, phone_number, intent):
+		try:
+			return self.contexts.update_one({
+				'phone_number': phone_number
+				}, {
+				'$set': {'intent': intent}
+				})
+		except PyMongoError as e:
+			print('PyMongoError: ', e)
 
 	def add_entity_to_context(self, phone_number, entity):
 		try:
@@ -72,5 +92,7 @@ class DataBase(object):
 			return self.contexts.delete_one({'phone_number': phone_number})
 		except PyMongoError as e:
 			print('Error: ', e)
+
+	# def all_entities_gathered(self, phone_number)
 
 
