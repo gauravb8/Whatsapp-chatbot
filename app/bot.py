@@ -28,7 +28,11 @@ class BOTResponse(object):
 			print("Error while making OMDB API request: ", err)
 			return ''
 
-	def has_only_intent(self, intent):
+	def has_only_intent(self, intent, temp_intent = None):
+		if temp_intent == "hi_again":
+			print("inside hi again")
+			app.db.update_intent(self.phone_number, intent)
+			return self.get_intent_response(temp_intent)
 		app.db.update_intent(self.phone_number, intent)
 		return self.get_intent_response(intent)
 
@@ -40,7 +44,18 @@ class BOTResponse(object):
 		app.db.update_intent(self.phone_number, intent)
 		app.db.add_entity_to_context(self.phone_number, entities[0])
 		return self.get_intent_response(entities[0]['type'], self.get_movie_info(entities[0]['value']))
-
+	
+		
+	def is_hi_again(self,phone_number,intent):
+		context = app.db.get_context(self.phone_number)
+		print("context",context)
+		if 'intent' in context:
+			if intent == context['intent'] and intent in ("Welcome_message","Introduction"):
+				print("Repeating...")
+				return True
+		return False
+		
+		
 	def no_intent_or_entities(self):
 		return self.get_intent_response('no_match')
 
@@ -64,7 +79,11 @@ def converse():
 		if entities:
 			response = bot_response.has_intent_and_entities(intent, entities)
 		else:
-			response = bot_response.has_only_intent(intent)
+			if bot_response.is_hi_again(user_number,intent):
+				print("YES")
+				response = bot_response.has_only_intent(intent,"hi_again")
+			else:
+				response = bot_response.has_only_intent(intent)
 
 	else:
 		response = bot_response.no_intent_or_entities()

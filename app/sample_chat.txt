@@ -1,0 +1,43 @@
+Sample chat1
+
+			hi
+hey
+			I want to watch movies like joker/show me some movies like "movie_name"
+			
+Here are some movies like joker....
+response()
+
+_______________________________
+
+Sample chat2
+
+			hello
+hey
+			I want to watch movies/Can you suggest me some good movies to watch
+			
+can you tell me some movies name so that I can suggest you something great to watch
+
+			ok, I want to watch movies like "movies_name"
+			
+_______________________________
+
+Sample chat3
+
+			I want to watch movies
+			
+what kind of movies do you want?
+	
+			movies like "movie_name"
+			
+___________________________		
+sample chat4
+
+			Please suggest me some movies
+			
+what kind of movies do you want?
+
+			I want to watch horror movies
+			
+
+
+
