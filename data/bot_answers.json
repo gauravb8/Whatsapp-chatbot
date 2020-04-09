@@ -39,6 +39,10 @@
 		"I think we've probably covered \"hello,Intro\" part of the conversation. How can I help you?",
 		"Oh! This \"hi, hello\" not again. Do you have any questions related to movies?",
 		"Why again? Tell me How can I help you?"
+	],
+	"Praise": [
+		"Thank you!",
+		"Thanks!"
 	]
 
 }

@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 
 class DataBase(object):
-	CONTEXT_VALIDITY_MINS = 5
+	CONTEXT_VALIDITY_MINS = 10
 	def __init__(self, connection_string, username, password):
 		print('Connecting to DB..')
 		self.client = pymongo.MongoClient(connection_string.format(urlencode(username), urlencode(password)), connect=True)
