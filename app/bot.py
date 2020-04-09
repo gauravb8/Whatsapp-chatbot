@@ -48,10 +48,8 @@ class BOTResponse(object):
 		
 	def is_hi_again(self,phone_number,intent):
 		context = app.db.get_context(self.phone_number)
-		print("context",context)
 		if 'intent' in context:
 			if intent == context['intent'] and intent in ("Welcome_message","Introduction"):
-				print("Repeating...")
 				return True
 		return False
 		
@@ -80,7 +78,6 @@ def converse():
 			response = bot_response.has_intent_and_entities(intent, entities)
 		else:
 			if bot_response.is_hi_again(user_number,intent):
-				print("YES")
 				response = bot_response.has_only_intent(intent,"hi_again")
 			else:
 				response = bot_response.has_only_intent(intent)
