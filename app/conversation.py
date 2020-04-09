@@ -18,10 +18,11 @@ class Conversation(object):
 
 	
 	def get_response(self,query):
-		emojis = ["😅","😀","😃","😄","😋","😛","😝","😂","😅","🥵","😭","😬","😑"]
+		emojis = ["😅","😀","😃","😄","😋","😛","😝","😂","😅","😭","😬","😑"]
 
 		query = [w for w in (query.split())]
-		response = self.aiml_kernel.respond(query)
+		question = " ".join(query)
+		response = self.aiml_kernel.respond(question)
 		if response:
 			return str(response)
 		else:
