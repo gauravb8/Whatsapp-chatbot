@@ -62,7 +62,8 @@ class DataBase(object):
 	def update_intent(self, phone_number, intent):
 		try:
 			return self.contexts.update_one({
-				'phone_number': phone_number
+				'phone_number': phone_number,
+				'timestamp': {'$gt': datetime.now() - timedelta(minutes=self.CONTEXT_VALIDITY_MINS)}
 				}, {
 				'$set': {'intent': intent}
 				})
@@ -74,13 +75,15 @@ class DataBase(object):
 			# If entity already exists, update its value
 			if self.contexts.update_one({
 				'phone_number': phone_number,
+				'timestamp': {'$gt': datetime.now() - timedelta(minutes=self.CONTEXT_VALIDITY_MINS)},
 				'entities.type': entity['type']
 				}, {
 				'$set': {'entities.$.value': entity['value']}
 				}).matched_count == 0:
 				# Existing entity of same type not found, insert a new one
 				self.contexts.update_one({
-					'phone_number': phone_number
+					'phone_number': phone_number,
+					'timestamp': {'$gt': datetime.now() - timedelta(minutes=self.CONTEXT_VALIDITY_MINS)}
 					}, {
 					'$addToSet': {"entities": entity}
 					})
@@ -89,7 +92,10 @@ class DataBase(object):
 
 	def delete_context(self, phone_number):
 		try:
-			return self.contexts.delete_one({'phone_number': phone_number})
+			return self.contexts.delete_one({
+				'phone_number': phone_number,
+				'timestamp': {'$gt': datetime.now() - timedelta(minutes=self.CONTEXT_VALIDITY_MINS)}
+				})
 		except PyMongoError as e:
 			print('Error: ', e)
 
