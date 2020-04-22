@@ -116,8 +116,5 @@ def converse():
 	# 	msg.body('My training is under process.')
 	# return str(resp)
 	
-
-
-	
 # if __name__ =="__main__":
 # 	app.run()
