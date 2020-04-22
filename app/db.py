@@ -14,7 +14,10 @@ class DataBase(object):
 
 	def set_context_collection(self, dbname, collection_name):
 		self.contexts = self.client[dbname][collection_name]
-		self.contexts.create_index('timestamp', expireAfterSeconds=300)
+		try:
+			self.contexts.create_index('timestamp', expireAfterSeconds=300)
+		except pymongo.errors.OperationFailure as e:
+			print('Context TTL already set')
 
 	def create_context(self, phone_number, intent, entities):
 		try:
