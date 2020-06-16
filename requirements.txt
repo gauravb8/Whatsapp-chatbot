@@ -2,7 +2,6 @@ aiml==0.9.2
 certifi==2019.11.28
 chardet==3.0.4
 click==7.1.1
-dnspython==1.16.0
 Flask==1.1.1
 idna==2.9
 itsdangerous==1.1.0
@@ -21,6 +20,7 @@ scikit-learn==0.23.1
 scipy==1.4.1
 six==1.14.0
 sklearn==0.0
+StringDist==1.0.9
 threadpoolctl==2.0.0
 tqdm==4.46.0
 twilio==6.37.0
