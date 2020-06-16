@@ -6,7 +6,10 @@ import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from tqdm import tqdm
-
+from collections import Counter
+import re
+import math
+import stringdist
 
 class WitInterface(object):
 
@@ -48,6 +51,7 @@ class Movies_Data(object):
 
 	def __init__(self,path):
 		self.df = pd.read_csv(path)
+		self.WORD = re.compile(r"\w+")
 		self.features = ['keywords','cast','genres','director']
 
 	def combine_features(self,row):
@@ -63,7 +67,18 @@ class Movies_Data(object):
 		return self.df[self.df.index == index]["popularity"].values[0]
 
 	def get_index_from_title(self,title):
+		#print(self.df[self.df.title == title]["index"].empty)
+		if self.df[self.df.title == title]["index"].empty:
+			return self.get_levenshtein_dist_title(title)
 		return self.df[self.df.title == title]["index"].values[0]
+
+
+
+	def get_levenshtein_dist_title(self,movie_user_likes):
+		similar_score=self.df['title'].apply(lambda x: stringdist.levenshtein(x.lower(),movie_user_likes.lower()))
+		similar_name =  list(enumerate(similar_score))
+		sorted_similar_names = sorted(similar_name,key=lambda x:x[1])[0][0]
+		return sorted_similar_names
 
 
 	def find_similar_movies(self,movie_user_likes):
@@ -74,6 +89,8 @@ class Movies_Data(object):
 		tqdm.pandas()
 		self.df["combined_features"] = self.df.progress_apply(self.combine_features,axis=1)
 		cv = CountVectorizer()
+		#tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english')
+		#tfidf_matrix = tf.fit_transform(self.df["combined_features"])
 		count_matrix = cv.fit_transform(self.df["combined_features"])
 		cosine_sim = cosine_similarity(count_matrix)
 		movie_index = self.get_index_from_title(movie_user_likes)
