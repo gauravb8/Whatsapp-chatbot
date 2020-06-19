@@ -83,7 +83,7 @@ def converse():
 				response = bot_response.has_only_intent(intent)
 
 	else:
-		response = app.chat_bot.get_response(str(incoming_msg))
+		response = app.chat_bot.get_response(str(incoming_msg), user_number)
 		#response = bot_response.no_intent_or_entities()
 
 

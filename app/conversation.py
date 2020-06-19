@@ -17,12 +17,12 @@ class Conversation(object):
 			self.aiml_kernel.saveBrain(BRAIN_FILE)
 
 	
-	def get_response(self,query):
+	def get_response(self,query, session_id):
 		emojis = ["😅","😀","😃","😄","😋","😛","😝","😂","😅","😭","😬","😑"]
 
 		query = [w for w in (query.split())]
 		question = " ".join(query)
-		response = self.aiml_kernel.respond(question)
+		response = self.aiml_kernel.respond(question, session_id)
 		if response:
 			return str(response)
 		else:
