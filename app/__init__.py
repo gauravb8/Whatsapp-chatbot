@@ -24,6 +24,7 @@ def create_app(test_config=None):
 	app.db = db.DataBase(app.config['MONGO_CONNECTION_STRING'], app.config['MONGO_USERNAME'], app.config['MONGO_PASSWORD'])
 	app.db.set_context_collection(app.config['MONGO_BOT_DB'], app.config['MONGO_CONTEXT_COLLECTION'])
 	app.chat_bot = conversation.Conversation(os.path.join(project_dir, app.config['BRAIN_FILE']), os.path.join(project_dir, app.config['LEARN_FILES']))
+	app.movie_info = utils.Movies_Data(app.config['MOVIE_DB'])
 	# Routes
 	# app.add_url_rule('/bot', 'bot_intro', bot.say_hi, methods=['GET'])
 	app.add_url_rule('/bot', 'bot_response', bot.converse, methods=['POST'])

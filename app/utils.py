@@ -96,7 +96,7 @@ class Movies_Data(object):
 		movie_index = self.get_index_from_title(movie_user_likes)
 		similar_movies =  list(enumerate(cosine_sim[movie_index]))
 		sorted_similar_movies = sorted(similar_movies,key=lambda x:x[1],reverse=True)[1:]
-		top_movies = {self.get_title_from_index(sorted_similar_movies[i][0]):self.get_popularityy_from_index(sorted_similar_movies[i][0]) for i in range(10)}
+		top_movies = {self.get_title_from_index(sorted_similar_movies[i][0]):self.get_popularityy_from_index(sorted_similar_movies[i][0]) for i in range(3)}
 		return  [name[0] for name in sorted(top_movies.items(), key=lambda x: x[1],reverse= True)]
 
 
